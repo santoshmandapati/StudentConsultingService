@@ -18,6 +18,6 @@ public class JobDetails {
   @JsonBackReference
   private Student student;
 
-  private Long yearsExperience;
+  private String yearsExperience;
   private String jobTitle;
 }

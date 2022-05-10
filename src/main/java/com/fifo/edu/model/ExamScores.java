@@ -18,15 +18,15 @@ public class ExamScores {
   @JsonBackReference
   private Student student;
 
-  private Long greOverallScore;
-  private Long greQuantScore;
-  private Long greVerbalScore;
-  private Long greAwaScore;
+  private String greOverallScore;
+  private String greQuantScore;
+  private String greVerbalScore;
+  private String greAwaScore;
 
   private String englishTestType;
-  private Long englishOverallScore;
-  private Long englishListeningScore;
-  private Long englishSpeakingScore;
-  private Long englishWritingScore;
-  private Long englishReadingScore;
+  private String englishOverallScore;
+  private String englishListeningScore;
+  private String englishSpeakingScore;
+  private String englishWritingScore;
+  private String englishReadingScore;
 }

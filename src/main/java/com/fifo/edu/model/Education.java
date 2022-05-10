@@ -20,19 +20,21 @@ public class Education {
 
   private String secondarySchool;
   private Long secondarySchoolPassedOutYear;
-  private Long secondarySchoolGpa;
+  private String secondarySchoolGpa;
 
   private String interSchool;
   private Long interSchoolPassedOutYear;
-  private Long interGpa;
+  private String interGpa;
 
   private String underGradSchool;
+  private String underGradCourseMajor;
   private Long underGradSchoolPassedOutYear;
-  private Long underGradGpa;
+  private String underGradGpa;
   private Long underGradBacklogCount;
 
   private String postGradSchool;
+  private String postGradCourseMajor;
   private Long postGradSchoolPassedOutYear;
-  private Long postGradGpa;
+  private String postGradGpa;
   private Long postGradBacklogCount;
 }
