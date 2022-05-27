@@ -1,7 +1,9 @@
 package com.fifo.edu.controller;
 
 import com.fifo.edu.model.Student;
+import com.fifo.edu.model.University;
 import com.fifo.edu.service.StudentService;
+import com.fifo.edu.service.UniversityService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +20,9 @@ public class StudentController {
 
   @Autowired
   private StudentService studentService;
+
+  @Autowired
+  private UniversityService universityService;
 
   private Logger logger = LoggerFactory.getLogger(StudentController.class);
 
@@ -59,4 +64,19 @@ public class StudentController {
     }
     return student;
   }
+
+  @GetMapping("universities")
+  public List<University> findAllUniversities() {
+    logger.info("Get all universities request");
+    List<University> universities = new ArrayList<>();
+    try {
+      universities = universityService.findAll();
+      logger.info("GET all universities response");
+    } catch (Exception e) {
+      logger.error("Exception while getting all students : " + e);
+    }
+
+    return universities;
+  }
+
 }

@@ -1,7 +1,6 @@
 package com.fifo.edu.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -20,4 +19,5 @@ public class Status {
 
   private String currentStatus;
   private String comments;
+  private String consultingFee;
 }
