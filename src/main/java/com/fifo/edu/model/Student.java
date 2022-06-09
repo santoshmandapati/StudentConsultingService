@@ -20,6 +20,18 @@ public class Student {
   private String gender;
   private Date dob;
 
+  private String loginEmail;
+
+  private String loginPassword;
+
+  @OneToOne
+  @JoinColumn(name = "consultancy_id")
+  private Consultancy consultancy;
+
+  @OneToOne
+  @JoinColumn(name = "country_id")
+  private Country country;
+
   @OneToOne(mappedBy = "student", cascade = CascadeType.ALL)
   @JsonManagedReference
   private Education education;
@@ -36,8 +48,9 @@ public class Student {
   @JsonManagedReference
   private StudentPreferences studentPreferences;
 
-  //@OneToMany(mappedBy="student")
-  //private Set<ShortListedUniversities> shortListedUniversities = new HashSet<>();
+  @OneToMany(mappedBy="student", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+  @JsonManagedReference
+  private Set<ShortListedUniversities> shortListedUniversities;
 
   @OneToOne(mappedBy = "student", cascade = CascadeType.ALL)
   @JsonManagedReference
@@ -50,7 +63,6 @@ public class Student {
         ", firstName='" + firstName + '\'' +
         ", lastName='" + lastName + '\'' +
         ", email='" + email + '\'' +
-        ", phone='" + phone + '\'' +
         '}';
   }
 }

@@ -1,7 +1,9 @@
 package com.fifo.edu.controller;
 
+import com.fifo.edu.model.AppUser;
 import com.fifo.edu.model.Student;
 import com.fifo.edu.model.University;
+import com.fifo.edu.service.AppUserDetailsService;
 import com.fifo.edu.service.StudentService;
 import com.fifo.edu.service.UniversityService;
 import org.slf4j.Logger;
@@ -10,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -17,6 +20,9 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/api/")
 public class StudentController {
+
+  @Autowired
+  private AppUserDetailsService appUserDetailsService;
 
   @Autowired
   private StudentService studentService;
@@ -38,11 +44,18 @@ public class StudentController {
   }
 
   @GetMapping("students")
-  public List<Student> findAllStudents() {
+  public List<Student> findAllStudents(Principal principal) {
     logger.info("Get all students request");
+    logger.info("PRINCIPAL:" + principal.getName());
+    AppUser appUser = appUserDetailsService.getUser(principal.getName());
+    logger.info("APP_USER: " + appUser);
     List<Student> students = new ArrayList<>();
     try {
-      students = studentService.findAll();
+      if(appUser.getRole().toLowerCase().equals("admin")) {
+        students = studentService.findByConsultancy(appUser.getConsultancy());
+      } else {
+        students = studentService.findByConsultancyAndCountry(appUser.getConsultancy(), appUser.getCountry());
+      }
       logger.info("GET all students response");
       logger.info("" + students.stream().map(s -> "(" + s.getStudentId() + ", " + s.getEmail() + ")").collect(Collectors.toList()));
     } catch (Exception e) {
@@ -75,8 +88,6 @@ public class StudentController {
     } catch (Exception e) {
       logger.error("Exception while getting all students : " + e);
     }
-
     return universities;
   }
-
 }

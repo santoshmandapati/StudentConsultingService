@@ -84,7 +84,6 @@ INSERT INTO university(name, state) VALUES('Brooks Institute','California');
 INSERT INTO university(name, state) VALUES('Squaw Valley Academy (High School)','California');
 INSERT INTO university(name, state) VALUES('Fairmont Schools (High School)','California');
 INSERT INTO university(name, state) VALUES('Marist Schools (High School)','California');
-INSERT INTO university(name, state) VALUES('Squaw Valley Academy (High School)','California');
 INSERT INTO university(name, state) VALUES('College of San Mateo','California');
 INSERT INTO university(name, state) VALUES('University of the Pacific ','California');
 INSERT INTO university(name, state) VALUES('Peralta Community College District','California');
@@ -401,3 +400,128 @@ INSERT INTO university(name, state) VALUES('Fox Valley Technical Community Colle
 INSERT INTO university(name, state) VALUES('Viterbo University','Wisconsin');
 INSERT INTO university(name, state) VALUES('Carroll University','Wisconsin');
 INSERT INTO university(name, state) VALUES('The Art Institutes','Across USA');
+
+-----------
+CREATE SEQUENCE country_id_seq START 1000;
+
+CREATE TABLE country (
+	country_id integer PRIMARY KEY DEFAULT nextval('country_id_seq'),
+	code varchar(20) NOT NULL,
+	name varchar(100) NOT NULL
+);
+
+INSERT INTO country(code, name) VALUES('GBR', 'United Kingdom');
+INSERT INTO country(code, name) VALUES('USA', 'United States');
+INSERT INTO country(code, name) VALUES('NZL', 'New Zealand');
+INSERT INTO country(code, name) VALUES('AUS', 'Australia');
+INSERT INTO country(code, name) VALUES('CAN', 'Canada');
+
+------------
+
+CREATE SEQUENCE consultancy_id_seq START 2000;
+
+CREATE TABLE consultancy (
+	consultancy_id integer PRIMARY KEY DEFAULT nextval('consultancy_id_seq'),
+	name varchar(200) NOT NULL
+);
+
+INSERT INTO consultancy(name) VALUES('Orange Way');
+INSERT INTO consultancy(name) VALUES('FIFO Edu');
+
+------------
+
+CREATE SEQUENCE app_user_id_seq START 3000;
+
+CREATE TABLE app_user (
+	app_user_id integer PRIMARY KEY DEFAULT nextval('app_user_id_seq'),
+	name varchar(200) NOT NULL,
+	username varchar(200) UNIQUE NOT NULL,
+	password varchar(200) NOT NULL,
+	consultancy_id integer REFERENCES consultancy(consultancy_id),
+	country_id integer REFERENCES country(country_id)
+);
+
+ALTER TABLE app_user ADD COLUMN role varchar(200) NOT NULL;
+
+-------------
+
+ALTER TABLE student ADD COLUMN consultancy_id integer REFERENCES consultancy(consultancy_id);
+ALTER TABLE student ADD COLUMN country_id integer REFERENCES country(country_id);
+ALTER TABLE student ADD COLUMN login_email varchar(200);
+ALTER TABLE student ADD COLUMN login_password varchar(200);
+
+-------------
+
+DROP TABLE short_listed_universities;
+
+CREATE TABLE short_listed_universities(
+	short_listed_universities_id integer PRIMARY KEY DEFAULT nextval('short_listed_universities_id_seq'),
+	student_id integer REFERENCES student(student_id),
+    university_id integer REFERENCES university(university_id),
+    course varchar(250),
+    intake_season varchar(100),
+    intake_year varchar(10),
+    application_fee varchar(250),
+    is_waiver_applied boolean,
+    waiver_code varchar(250),
+    agent varchar(250),
+    status varchar(250),
+    list_order_id varchar(200)
+);
+
+---------------
+
+ALTER TABLE student ADD COLUMN created_by varchar(200);
+ALTER TABLE student ADD COLUMN created_date timestamp;
+ALTER TABLE student ADD COLUMN modified_by varchar(200);
+ALTER TABLE student ADD COLUMN modified_date timestamp;
+
+ALTER TABLE app_user ADD COLUMN created_by varchar(200);
+ALTER TABLE app_user ADD COLUMN created_date timestamp;
+ALTER TABLE app_user ADD COLUMN modified_by varchar(200);
+ALTER TABLE app_user ADD COLUMN modified_date timestamp;
+
+ALTER TABLE consultancy ADD COLUMN created_by varchar(200);
+ALTER TABLE consultancy ADD COLUMN created_date timestamp;
+ALTER TABLE consultancy ADD COLUMN modified_by varchar(200);
+ALTER TABLE consultancy ADD COLUMN modified_date timestamp;
+
+ALTER TABLE country ADD COLUMN created_by varchar(200);
+ALTER TABLE country ADD COLUMN created_date timestamp;
+ALTER TABLE country ADD COLUMN modified_by varchar(200);
+ALTER TABLE country ADD COLUMN modified_date timestamp;
+
+ALTER TABLE education ADD COLUMN created_by varchar(200);
+ALTER TABLE education ADD COLUMN created_date timestamp;
+ALTER TABLE education ADD COLUMN modified_by varchar(200);
+ALTER TABLE education ADD COLUMN modified_date timestamp;
+
+ALTER TABLE exam_scores ADD COLUMN created_by varchar(200);
+ALTER TABLE exam_scores ADD COLUMN created_date timestamp;
+ALTER TABLE exam_scores ADD COLUMN modified_by varchar(200);
+ALTER TABLE exam_scores ADD COLUMN modified_date timestamp;
+
+ALTER TABLE job_details ADD COLUMN created_by varchar(200);
+ALTER TABLE job_details ADD COLUMN created_date timestamp;
+ALTER TABLE job_details ADD COLUMN modified_by varchar(200);
+ALTER TABLE job_details ADD COLUMN modified_date timestamp;
+
+ALTER TABLE short_listed_universities ADD COLUMN created_by varchar(200);
+ALTER TABLE short_listed_universities ADD COLUMN created_date timestamp;
+ALTER TABLE short_listed_universities ADD COLUMN modified_by varchar(200);
+ALTER TABLE short_listed_universities ADD COLUMN modified_date timestamp;
+
+ALTER TABLE status ADD COLUMN created_by varchar(200);
+ALTER TABLE status ADD COLUMN created_date timestamp;
+ALTER TABLE status ADD COLUMN modified_by varchar(200);
+ALTER TABLE status ADD COLUMN modified_date timestamp;
+
+ALTER TABLE student_preferences ADD COLUMN created_by varchar(200);
+ALTER TABLE student_preferences ADD COLUMN created_date timestamp;
+ALTER TABLE student_preferences ADD COLUMN modified_by varchar(200);
+ALTER TABLE student_preferences ADD COLUMN modified_date timestamp;
+
+ALTER TABLE university ADD COLUMN created_by varchar(200);
+ALTER TABLE university ADD COLUMN created_date timestamp;
+ALTER TABLE university ADD COLUMN modified_by varchar(200);
+ALTER TABLE university ADD COLUMN modified_date timestamp;

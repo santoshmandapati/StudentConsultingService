@@ -1,10 +1,10 @@
 package com.fifo.edu.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.util.Objects;
 
 @Data
 @Entity
@@ -18,10 +18,31 @@ public class ShortListedUniversities {
   @JsonBackReference
   private Student student;
 
-  private String name;
+  @OneToOne
+  @JoinColumn(name = "university_id")
+  private University university;
+
   private String course;
-  private String degree;
-  private String country;
+  private String intakeSeason;
+  private String intakeYear;
   private String applicationFee;
+  private Boolean isWaiverApplied;
+  private String waiverCode;
+  private String agent;
   private String status;
+
+  private String listOrderId;
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+    ShortListedUniversities that = (ShortListedUniversities) o;
+    return Objects.equals(listOrderId, that.listOrderId);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(listOrderId);
+  }
 }
